@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SmartSpend – AI Expense Tracker | Project Report & Java Concepts Guide</title>
+<style>
+    @page {
+        size: A4;
+        margin: 20mm 18mm 20mm 18mm;
+        @bottom-right {
+            content: counter(page);
+        }
+    }
+    
+    body {
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+        color: #1e293b;
+        line-height: 1.55;
+        font-size: 10.5pt;
+        background-color: #ffffff;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Print Break Utilities */
+    .page-break {
+        page-break-before: always;
+        break-before: page;
+    }
+    .avoid-break {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    /* Cover Page */
+    .cover-page {
+        min-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 40px 20px 20px 20px;
+        box-sizing: border-box;
+    }
+    .cover-top {
+        border-bottom: 4px solid #2563eb;
+        padding-bottom: 25px;
+    }
+    .cover-badge {
+        display: inline-block;
+        background: #eff6ff;
+        color: #1d4ed8;
+        font-weight: 700;
+        font-size: 9pt;
+        padding: 6px 14px;
+        border-radius: 20px;
+        border: 1px solid #bfdbfe;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 18px;
+    }
+    .cover-title {
+        font-size: 28pt;
+        font-weight: 800;
+        color: #0f172a;
+        margin: 0 0 10px 0;
+        line-height: 1.15;
+    }
+    .cover-subtitle {
+        font-size: 13pt;
+        color: #475569;
+        margin: 0;
+        font-weight: 400;
+    }
+    .cover-meta-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-top: 50px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 24px;
+    }
+    .cover-meta-item strong {
+        display: block;
+        color: #64748b;
+        font-size: 8.5pt;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+    }
+    .cover-meta-item span {
+        font-size: 11pt;
+        font-weight: 600;
+        color: #0f172a;
+    }
+    .cover-tech-pills {
+        margin-top: 35px;
+    }
+    .tech-pill {
+        display: inline-block;
+        background: #e2e8f0;
+        color: #334155;
+        font-size: 8.5pt;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 6px;
+        margin-right: 6px;
+        margin-bottom: 6px;
+    }
+    .cover-footer {
+        font-size: 9pt;
+        color: #64748b;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 15px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* Headings */
+    h1 {
+        font-size: 18pt;
+        font-weight: 700;
+        color: #0f172a;
+        border-bottom: 2px solid #2563eb;
+        padding-bottom: 6px;
+        margin-top: 26px;
+        margin-bottom: 14px;
+    }
+    h2 {
+        font-size: 13.5pt;
+        font-weight: 700;
+        color: #1e3a8a;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+    h3 {
+        font-size: 11pt;
+        font-weight: 600;
+        color: #334155;
+        margin-top: 14px;
+        margin-bottom: 6px;
+    }
+    p {
+        margin: 0 0 10px 0;
+        text-align: justify;
+    }
+
+    /* Tables */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 12px 0 16px 0;
+        font-size: 9pt;
+    }
+    th, td {
+        border: 1px solid #cbd5e1;
+        padding: 7px 10px;
+        text-align: left;
+        vertical-align: top;
+    }
+    th {
+        background-color: #f1f5f9;
+        color: #0f172a;
+        font-weight: 700;
+    }
+    tr:nth-child(even) {
+        background-color: #f8fafc;
+    }
+
+    /* Code Blocks */
+    pre {
+        background-color: #0f172a;
+        color: #e2e8f0;
+        padding: 10px 14px;
+        border-radius: 6px;
+        font-family: 'Consolas', 'Courier New', monospace;
+        font-size: 8.5pt;
+        line-height: 1.45;
+        overflow-x: auto;
+        margin: 10px 0 14px 0;
+        border: 1px solid #1e293b;
+    }
+    code {
+        font-family: 'Consolas', 'Courier New', monospace;
+        font-size: 8.8pt;
+        background-color: #f1f5f9;
+        color: #b91c1c;
+        padding: 1px 4px;
+        border-radius: 4px;
+    }
+    pre code {
+        background-color: transparent;
+        color: inherit;
+        padding: 0;
+    }
+
+    /* Callout & Cards */
+    .callout {
+        border-left: 4px solid #2563eb;
+        background-color: #f8fafc;
+        padding: 10px 14px;
+        margin: 12px 0;
+        border-radius: 0 6px 6px 0;
+        font-size: 9.5pt;
+    }
+    .callout-success {
+        border-left-color: #10b981;
+        background-color: #f0fdf4;
+    }
+    .callout-warning {
+        border-left-color: #f59e0b;
+        background-color: #fffbeb;
+    }
+    .callout strong {
+        color: #0f172a;
+    }
+
+    .qa-box {
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 10px 12px;
+        margin-bottom: 12px;
+    }
+    .qa-box strong.q {
+        color: #1e3a8a;
+        font-size: 9.5pt;
+        display: block;
+        margin-bottom: 4px;
+    }
+    .qa-box p.a {
+        margin: 0;
+        color: #334155;
+        font-size: 9pt;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 2px 7px;
+        border-radius: 4px;
+        font-size: 8pt;
+        font-weight: 600;
+        margin-right: 4px;
+    }
+    .badge-blue { background: #dbeafe; color: #1e40af; }
+    .badge-green { background: #dcfce7; color: #166534; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER PAGE ================= -->
+<div class="cover-page">
+    <div class="cover-top">
+        <span class="cover-badge">Course Project &amp; Viva Defense Report</span>
+        <h1 class="cover-title">SmartSpend</h1>
+        <p class="cover-subtitle">AI-Powered Personal Expense &amp; Budget Management Desktop System</p>
+    </div>
+
+    <div>
+        <p style="font-size: 10.5pt; color: #334155; line-height: 1.6;">
+            A complete desktop application built in Java 21 and JavaFX, incorporating JDBC database persistence, 
+            object-oriented domain modeling, Java 8 Streams, multithreaded asynchronous network communication, 
+            and real-time financial advisory powered by Google Gemini AI with offline algorithmic fallback.
+        </p>
+
+        <div class="cover-meta-grid">
+            <div class="cover-meta-item">
+                <strong>Course / Subject</strong>
+                <span>Object-Oriented Programming with Java</span>
+            </div>
+            <div class="cover-meta-item">
+                <strong>Project Domain</strong>
+                <span>Personal Finance &amp; AI Systems</span>
+            </div>
+            <div class="cover-meta-item">
+                <strong>Architecture</strong>
+                <span>MVC + DAO + Service Layer Pattern</span>
+            </div>
+            <div class="cover-meta-item">
+                <strong>Academic Session</strong>
+                <span>2024 – 2025 (Current Evaluation)</span>
+            </div>
+        </div>
+
+        <div class="cover-tech-pills">
+            <span class="tech-pill">Java 21</span>
+            <span class="tech-pill">JavaFX 21 (OpenJFX)</span>
+            <span class="tech-pill">Pure JDBC</span>
+            <span class="tech-pill">MySQL 8.3 &amp; In-Memory H2</span>
+            <span class="tech-pill">Java 8 Streams &amp; Lambdas</span>
+            <span class="tech-pill">Google Gemini REST API</span>
+            <span class="tech-pill">Java 11 HttpClient</span>
+            <span class="tech-pill">Multithreading &amp; Concurrency</span>
+        </div>
+    </div>
+
+    <div class="cover-footer">
+        <span>Prepared for Faculty Evaluation, Practical Examination &amp; Project Review</span>
+        <span>SmartSpend Academic Documentation</span>
+    </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================= TABLE OF CONTENTS ================= -->
+<h1>Table of Contents</h1>
+<table style="margin-top: 15px;">
+    <thead>
+        <tr>
+            <th style="width: 12%;">Section</th>
+            <th>Title</th>
+            <th style="width: 45%;">Core Coverage</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>1.0</strong></td>
+            <td><strong>Executive Summary &amp; System Architecture</strong></td>
+            <td>Problem statement, project objectives, 3-tier MVC + DAO architecture.</td>
+        </tr>
+        <tr>
+            <td><strong>2.0</strong></td>
+            <td><strong>Comprehensive Java Concepts Mapping</strong></td>
+            <td>Master syllabus mapping table: OOP, JDBC, Exceptions, Streams, Generics.</td>
+        </tr>
+        <tr>
+            <td><strong>3.0</strong></td>
+            <td><strong>Object-Oriented Programming (OOP) Deep Dive</strong></td>
+            <td>Abstraction, Inheritance, Polymorphism, and Encapsulation with diagrams.</td>
+        </tr>
+        <tr>
+            <td><strong>4.0</strong></td>
+            <td><strong>Database &amp; JDBC Persistence Layer</strong></td>
+            <td>Singleton Connection, PreparedStatement vs SQL injection, H2 fallback.</td>
+        </tr>
+        <tr>
+            <td><strong>5.0</strong></td>
+            <td><strong>Exception Handling Architecture</strong></td>
+            <td>Custom exceptions, try-with-resources, checked vs unchecked, graceful degradation.</td>
+        </tr>
+        <tr>
+            <td><strong>6.0</strong></td>
+            <td><strong>JavaFX GUI &amp; Event-Driven Architecture</strong></td>
+            <td>Application lifecycle, TableView property binding, Pie/Bar charts, styling.</td>
+        </tr>
+        <tr>
+            <td><strong>7.0</strong></td>
+            <td><strong>Modern Java: Streams, Lambdas &amp; File I/O</strong></td>
+            <td>Stream pipelines, lambda expressions, RFC-4180 CSV export, Java Time API.</td>
+        </tr>
+        <tr>
+            <td><strong>8.0</strong></td>
+            <td><strong>Multithreading &amp; Asynchronous AI Integration</strong></td>
+            <td>UI concurrency, JavaFX Task, Platform.runLater, Java 11 HttpClient, Gemini AI.</td>
+        </tr>
+        <tr>
+            <td><strong>9.0</strong></td>
+            <td><strong>Step-by-Step Faculty Demonstration Guide</strong></td>
+            <td>Exact workflow script to showcase features smoothly during evaluation.</td>
+        </tr>
+        <tr>
+            <td><strong>10.0</strong></td>
+            <td><strong>Top 20 Viva Questions &amp; Authentic Model Answers</strong></td>
+            <td>High-yield questions asked by examiners with concise, student-level answers.</td>
+        </tr>
+        <tr>
+            <td><strong>11.0</strong></td>
+            <td><strong>Project Setup, Compilation &amp; Execution Guide</strong></td>
+            <td>Running via run.bat, javac compilation, and Maven dependencies.</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="callout callout-success" style="margin-top: 20px;">
+    <strong>💡 Presentation Tip for Students:</strong> When presenting to your professor ("Sir"), remember that the actual codebase is located under standard package paths in <code>src/main/java/com/smartspend/</code>, while clean reference copies categorized by Java syllabus topics are available in <code>Java_Concepts/</code> for rapid demonstration.
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 1 ================= -->
+<h1>1.0 Executive Summary &amp; System Architecture</h1>
+
+<h2>1.1 Project Overview &amp; Motivation</h2>
+<p>
+    <strong>SmartSpend</strong> is an enterprise-grade desktop personal finance management application engineered in pure Java 21 and JavaFX. While typical student projects offer primitive command-line interfaces or superficial web forms, SmartSpend delivers an end-to-end desktop experience combining industrial software engineering patterns with modern artificial intelligence.
+</p>
+<p>
+    The application allows users to register secure accounts, track daily multi-category expenses and income streams, establish monthly category budgets with real-time overspending alerts, visualize financial health through interactive charts, export structured reports to disk, and converse with an integrated AI Financial Assistant powered by the Google Gemini API.
+</p>
+
+<h2>1.2 Multi-Tier Architectural Design (MVC + DAO Pattern)</h2>
+<p>
+    To ensure high maintainability, testability, and adherence to the Single Responsibility Principle (SRP), SmartSpend employs a strict 4-layer architecture:
+</p>
+
+<table style="margin-top: 10px;">
+    <thead>
+        <tr>
+            <th style="width: 22%;">Layer</th>
+            <th style="width: 25%;">Package</th>
+            <th>Responsibilities &amp; Design Pattern</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>1. View Layer</strong></td>
+            <td><code>com.smartspend.view</code></td>
+            <td>JavaFX UI components (Stage, Scene, BorderPane, TableView, PieChart, BarChart). Completely decoupled from SQL queries; fires event callbacks to Controllers.</td>
+        </tr>
+        <tr>
+            <td><strong>2. Controller Layer</strong></td>
+            <td><code>com.smartspend.controller</code></td>
+            <td>Mediates user gestures, coordinates background threading (JavaFX Task), invokes service operations, and schedules safe UI updates via <code>Platform.runLater()</code>.</td>
+        </tr>
+        <tr>
+            <td><strong>3. Service Layer</strong></td>
+            <td><code>com.smartspend.service</code></td>
+            <td>Encapsulates business rules, password hashing (SHA-256), stream-based report aggregation, and Gemini HTTP network calls.</td>
+        </tr>
+        <tr>
+            <td><strong>4. DAO &amp; Persistence</strong></td>
+            <td><code>com.smartspend.dao</code><br><code>com.smartspend.database</code></td>
+            <td>Data Access Object pattern with generic interface <code>CrudDao&lt;T&gt;</code>. Manages JDBC PreparedStatements, ResultSet mapping, and database failover.</td>
+        </tr>
+    </tbody>
+</table>
+
+<pre>
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                       SMARTSPEND ARCHITECTURAL FLOW                        │
+│                                                                             │
+│   [JavaFX View]  &lt;──(Event Binding)──&gt;  [Controller Layer]                 │
+│         ▲                                        │                          │
+│         │ (Platform.runLater)                    ▼ (Business Rules)         │
+│   [UI Thread Safe]                      [Service Layer]                     │
+│                                                  │                          │
+│                                                  ▼ (Generic DAO Contract)   │
+│                                           [DAO Layer]                       │
+│                                                  │                          │
+│                                                  ▼ (PreparedStatement)      │
+│                                       [JDBC Connection Pool]               │
+│                                                  │                          │
+│                              ┌───────────────────┴───────────────────┐      │
+│                              ▼                                       ▼      │
+│                       [MySQL 8.3 Server]               [In-Memory H2 DB]    │
+│                       (Primary Production)             (Resilient Fallback) │
+└─────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 2 ================= -->
+<h1>2.0 Comprehensive Java Concepts Mapping Table</h1>
+<p>
+    This master table maps every core Java concept in academic curricula directly to the corresponding source files, methods, and architectural justifications within SmartSpend:
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th style="width: 22%;">Java Concept</th>
+            <th style="width: 28%;">Primary Implementation</th>
+            <th>How It Is Demonstrated &amp; Why It Matters</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Abstraction</strong></td>
+            <td><code>Transaction.java</code></td>
+            <td>Abstract base class declaring common fields and abstract method <code>getTransactionType()</code>. Prevents direct instantiation of vague transactions.</td>
+        </tr>
+        <tr>
+            <td><strong>Inheritance</strong></td>
+            <td><code>Expense.java</code><br><code>Income.java</code></td>
+            <td>Both classes extend <code>Transaction</code>, inheriting common properties while delegating field initialization through <code>super(...)</code> constructor chaining.</td>
+        </tr>
+        <tr>
+            <td><strong>Polymorphism</strong></td>
+            <td><code>Expense.java</code><br><code>Income.java</code></td>
+            <td>Runtime polymorphism via method overriding: <code>@Override getTransactionType()</code> and <code>@Override getFormattedSummary()</code>.</td>
+        </tr>
+        <tr>
+            <td><strong>Encapsulation</strong></td>
+            <td><code>User.java</code><br><code>Budget.java</code></td>
+            <td>Private data members with public getters and setters. Encapsulates business metrics: <code>getPercentageUsed()</code>, <code>isExceeded()</code>.</td>
+        </tr>
+        <tr>
+            <td><strong>Interfaces &amp; Generics</strong></td>
+            <td><code>CrudDao.java</code></td>
+            <td>Generic interface <code>CrudDao&lt;T&gt;</code> defining contract methods (<code>save</code>, <code>findById</code>, <code>update</code>, <code>delete</code>) with compile-time type safety.</td>
+        </tr>
+        <tr>
+            <td><strong>Custom Exceptions</strong></td>
+            <td><code>DatabaseException.java</code></td>
+            <td>Extends <code>RuntimeException</code>. Implements constructor chaining with <code>super(message, cause)</code> to wrap checked <code>SQLException</code>.</td>
+        </tr>
+        <tr>
+            <td><strong>Automatic Resource Cleanup</strong></td>
+            <td>All DAO classes (e.g., <code>ExpenseDao.java</code>)</td>
+            <td>Java 7+ <code>try-with-resources</code> syntax for <code>Connection</code>, <code>PreparedStatement</code>, and <code>ResultSet</code>, preventing connection leaks.</td>
+        </tr>
+        <tr>
+            <td><strong>JDBC &amp; PreparedStatements</strong></td>
+            <td><code>ExpenseDao.java</code><br><code>UserDao.java</code></td>
+            <td>Parameterized queries with <code>?</code> placeholders to completely eliminate SQL Injection vulnerabilities.</td>
+        </tr>
+        <tr>
+            <td><strong>Singleton Design Pattern</strong></td>
+            <td><code>DatabaseConnection.java</code><br><code>SessionManager.java</code></td>
+            <td>Private constructors and synchronized static <code>getInstance()</code> ensuring a single global instance manages state.</td>
+        </tr>
+        <tr>
+            <td><strong>Java 8 Streams &amp; Lambdas</strong></td>
+            <td><code>ReportService.java</code></td>
+            <td>Functional data processing: <code>.stream().filter().mapToDouble().sum()</code> and categorical grouping via <code>Collectors.groupingBy()</code>.</td>
+        </tr>
+        <tr>
+            <td><strong>Modern Date/Time API</strong></td>
+            <td><code>DateUtil.java</code></td>
+            <td>Uses immutable, thread-safe <code>java.time.LocalDate</code> and <code>DateTimeFormatter</code> instead of obsolete <code>java.util.Date</code>.</td>
+        </tr>
+        <tr>
+            <td><strong>Java File I/O</strong></td>
+            <td><code>FileExportUtil.java</code></td>
+            <td>Disk output using <code>FileWriter</code> and <code>BufferedWriter</code>, formatted with RFC-4180 standard CSV quotation escaping.</td>
+        </tr>
+        <tr>
+            <td><strong>Multithreading &amp; Concurrency</strong></td>
+            <td><code>AIAssistantController.java</code></td>
+            <td>Executes network calls inside background <code>Task&lt;String&gt;</code> workers, safely updating JavaFX UI via <code>Platform.runLater()</code>.</td>
+        </tr>
+        <tr>
+            <td><strong>Modern HTTP Client</strong></td>
+            <td><code>GeminiService.java</code></td>
+            <td>Uses Java 11 <code>java.net.http.HttpClient</code> with non-blocking <code>CompletableFuture</code> for RESTful API communication.</td>
+        </tr>
+        <tr>
+            <td><strong>Security &amp; Cryptography</strong></td>
+            <td><code>AuthService.java</code></td>
+            <td>Java Cryptography Architecture (JCA): SHA-256 password hashing with salt and hexadecimal formatting.</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 3 ================= -->
+<h1>3.0 Object-Oriented Programming (OOP) Deep Dive</h1>
+
+<h2>3.1 The Abstract Base Class: <code>Transaction.java</code></h2>
+<p>
+    In financial systems, every entry is either an expenditure or an earning. A generic "transaction" cannot exist by itself. Therefore, we declare <code>Transaction</code> as an <code>abstract class</code>:
+</p>
+
+<pre><code class="language-java">// Package: com.smartspend.model
+public abstract class Transaction {
+    protected int id;
+    protected int userId;
+    protected double amount;
+    protected String category;
+    protected String description;
+    protected LocalDate date;
+
+    // Default Constructor
+    public Transaction() {}
+
+    // Overloaded Constructor with Constructor Chaining
+    public Transaction(int userId, double amount, String category, String description, LocalDate date) {
+        this(0, userId, amount, category, description, date);
+    }
+
+    public Transaction(int id, int userId, double amount, String category, String description, LocalDate date) {
+        this.id = id;
+        this.userId = userId;
+        this.amount = amount;
+        this.category = category;
+        this.description = description;
+        this.date = date;
+    }
+
+    // Abstract method: MUST be implemented by child classes
+    public abstract String getTransactionType();
+
+    // Virtual method providing common baseline summary
+    public String getFormattedSummary() {
+        return String.format("[%s] %s: $%.2f on %s", getTransactionType(), category, amount, date);
+    }
+
+    // Encapsulated getters and setters...
+}</code></pre>
+
+<h2>3.2 Inheritance and Dynamic Polymorphism: <code>Expense.java</code> &amp; <code>Income.java</code></h2>
+<p>
+    <code>Expense</code> and <code>Income</code> extend <code>Transaction</code>, reusing its fields and overriding behavior:
+</p>
+
+<pre><code class="language-java">// Package: com.smartspend.model
+public class Expense extends Transaction {
+    public static final List&lt;String&gt; CATEGORIES = Arrays.asList(
+        "Food", "Shopping", "Travel", "Education", "Transport", "Entertainment", "Healthcare", "Other"
+    );
+
+    public Expense(int userId, double amount, String category, String description, LocalDate date) {
+        super(userId, amount, category, description, date); // Constructor Chaining
+    }
+
+    @Override
+    public String getTransactionType() {
+        return "EXPENSE"; // Dynamic Polymorphism
+    }
+
+    @Override
+    public String getFormattedSummary() {
+        return String.format("[-] %s: $%.2f (%s)", category, amount, description);
+    }
+}</code></pre>
+
+<div class="callout">
+    <strong>Key Point for Sir:</strong> If we have a polymorphic collection <code>List&lt;Transaction&gt; list</code> containing both <code>Expense</code> and <code>Income</code> objects, iterating over the list and calling <code>t.getTransactionType()</code> triggers <strong>dynamic method dispatch</strong>, invoking the correct subclass implementation at runtime without explicit type casting.
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 4 ================= -->
+<h1>4.0 Database &amp; JDBC Persistence Layer</h1>
+
+<h2>4.1 The Singleton Connection Manager</h2>
+<p>
+    Managing multiple database connections in desktop software leads to port exhaustion and resource contention. SmartSpend uses the <strong>Singleton Pattern</strong> to centralize connection lifecycle and support seamless offline fallback:
+</p>
+
+<pre><code class="language-java">// Package: com.smartspend.database
+public class DatabaseConnection {
+    private static DatabaseConnection instance;
+    private Connection connection;
+
+    // Private constructor prevents external instantiation
+    private DatabaseConnection() {
+        connect();
+    }
+
+    // Thread-safe synchronized access
+    public static synchronized DatabaseConnection getInstance() {
+        if (instance == null) {
+            instance = new DatabaseConnection();
+        }
+        return instance;
+    }
+
+    private void connect() {
+        try {
+            // Attempt primary MySQL connection
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            this.connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/smartspend_db?createDatabaseIfNotExist=true",
+                "root", "password"
+            );
+            System.out.println("[DB] Connected to MySQL successfully.");
+        } catch (Exception e) {
+            System.err.println("[DB] MySQL unavailable. Falling back to embedded H2 database...");
+            try {
+                // Seamless in-memory fallback
+                Class.forName("org.h2.Driver");
+                this.connection = DriverManager.getConnection("jdbc:h2:mem:smartspend;DB_CLOSE_DELAY=-1");
+                System.out.println("[DB] In-Memory H2 Database initialized successfully.");
+            } catch (Exception h2Ex) {
+                throw new DatabaseException("Fatal: Failed to initialize database.", h2Ex);
+            }
+        }
+    }
+}</code></pre>
+
+<h2>4.2 Protection Against SQL Injection Attacks</h2>
+<p>
+    Traditional string concatenation in SQL queries (<code>"SELECT * FROM users WHERE name = '" + input + "'"</code>) is vulnerable to SQL injection. SmartSpend strictly uses <code>PreparedStatement</code>:
+</p>
+
+<pre><code class="language-java">// Package: com.smartspend.dao (ExpenseDao.java)
+String sql = "INSERT INTO expenses (user_id, amount, category, description, expense_date) VALUES (?, ?, ?, ?, ?)";
+try (Connection conn = DatabaseConnection.getInstance().getConnection();
+     PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+    
+    ps.setInt(1, expense.getUserId());
+    ps.setDouble(2, expense.getAmount());
+    ps.setString(3, expense.getCategory());
+    ps.setString(4, expense.getDescription());
+    ps.setDate(5, java.sql.Date.valueOf(expense.getDate()));
+    
+    return ps.executeUpdate() &gt; 0;
+} catch (SQLException e) {
+    throw new DatabaseException("Error persisting expense record", e);
+}</code></pre>
+
+<div class="callout callout-success">
+    <strong>Why this is safe:</strong> The database engine compiles the SQL query template first with <code>?</code> placeholders. User inputs are subsequently bound purely as literal parameters, preventing attackers from injecting malicious SQL commands like <code>' OR 1=1; DROP TABLE users; --</code>.
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 5 ================= -->
+<h1>5.0 Exception Handling Architecture</h1>
+
+<h2>5.1 Custom Exception Class with Exception Chaining</h2>
+<p>
+    Rather than leaking low-level, database-specific <code>SQLException</code> instances into UI controllers, SmartSpend wraps persistence failures into a domain-specific <code>DatabaseException</code>:
+</p>
+
+<pre><code class="language-java">// Package: com.smartspend.util
+public class DatabaseException extends RuntimeException {
+
+    public DatabaseException() {
+        super("A database error occurred in SmartSpend.");
+    }
+
+    public DatabaseException(String message) {
+        super(message);
+    }
+
+    // Constructor Chaining preserving root cause for debugging
+    public DatabaseException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}</code></pre>
+
+<h2>5.2 Multi-Tier Exception Propagation Strategy</h2>
+<table>
+    <thead>
+        <tr>
+            <th style="width: 20%;">Application Tier</th>
+            <th style="width: 30%;">Handled Exceptions</th>
+            <th>Design Decision &amp; Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>DAO Layer</strong></td>
+            <td><code>SQLException</code></td>
+            <td>Catches driver exceptions, translates them to <code>DatabaseException(msg, e)</code>, ensuring database isolation.</td>
+        </tr>
+        <tr>
+            <td><strong>Service Layer</strong></td>
+            <td><code>NumberFormatException</code>, <code>DateTimeParseException</code></td>
+            <td>Validates business parameters; throws user-friendly validation exceptions before persistence calls.</td>
+        </tr>
+        <tr>
+            <td><strong>Network Tier</strong></td>
+            <td><code>HttpTimeoutException</code>, <code>IOException</code></td>
+            <td>Catches Gemini network dropouts; seamlessly activates the offline rule-based financial analyzer.</td>
+        </tr>
+        <tr>
+            <td><strong>Controller / UI</strong></td>
+            <td><code>DatabaseException</code>, <code>Exception</code></td>
+            <td>Catches top-level exceptions and displays non-blocking JavaFX <code>AlertHelper.showError()</code> dialogs.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>5.3 Automatic Resource Management (Try-with-Resources)</h2>
+<p>
+    Every class interacting with external streams or database cursors implements Java's <code>AutoCloseable</code> interface. SmartSpend uses try-with-resources blocks:
+</p>
+<pre><code class="language-java">try (Connection conn = DatabaseConnection.getInstance().getConnection();
+     PreparedStatement ps = conn.prepareStatement(query);
+     ResultSet rs = ps.executeQuery()) {
+    while (rs.next()) {
+        // Process records
+    }
+} // Resources automatically closed in reverse order of declaration even if an exception occurs</code></pre>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 6 ================= -->
+<h1>6.0 JavaFX GUI &amp; Event-Driven Architecture</h1>
+
+<h2>6.1 Application Lifecycle Methods</h2>
+<p>
+    SmartSpend strictly adheres to the standard JavaFX <code>Application</code> lifecycle:
+</p>
+<ul>
+    <li><strong><code>init()</code></strong>: Runs on a background thread prior to stage presentation. Bootstraps the database connection and verifies table structures.</li>
+    <li><strong><code>start(Stage stage)</code></strong>: Runs on the <strong>JavaFX Application Thread</strong>. Configures the primary stage, window bounds (1100x720), and scene navigation.</li>
+    <li><strong><code>stop()</code></strong>: Invoked upon application shutdown. Safely closes open database connections to prevent memory or connection leaks.</li>
+</ul>
+
+<h2>6.2 Automated TableView Binding via Reflection</h2>
+<p>
+    In <code>ExpenseView.java</code>, data binding between the domain model and GUI controls is configured using <code>PropertyValueFactory</code>:
+</p>
+
+<pre><code class="language-java">// Package: com.smartspend.view (ExpenseView.java)
+TableColumn&lt;Expense, String&gt; colCategory = new TableColumn&lt;&gt;("Category");
+colCategory.setCellValueFactory(new PropertyValueFactory&lt;&gt;("category"));
+
+TableColumn&lt;Expense, Double&gt; colAmount = new TableColumn&lt;&gt;("Amount ($)");
+colAmount.setCellValueFactory(new PropertyValueFactory&lt;&gt;("amount"));
+
+TableColumn&lt;Expense, LocalDate&gt; colDate = new TableColumn&lt;&gt;("Date");
+colDate.setCellValueFactory(new PropertyValueFactory&lt;&gt;("date"));
+
+tableView.getColumns().addAll(colDate, colCategory, colAmount, colDescription);
+tableView.setItems(observableExpenseList); // Real-time UI updates upon list modification</code></pre>
+
+<h2>6.3 Interactive Data Visualization (Charts)</h2>
+<p>
+    The dashboard incorporates real-time visual summaries:
+</p>
+<ul>
+    <li><strong><code>PieChart</code></strong>: Dynamically maps expense categories to percentage slices.</li>
+    <li><strong><code>BarChart&lt;String, Number&gt;</code></strong>: Compares monthly Income vs Expense series across chronological categories using <code>CategoryAxis</code> and <code>NumberAxis</code>.</li>
+</ul>
+
+<pre><code class="language-java">// Package: com.smartspend.view (DashboardView.java)
+PieChart pieChart = new PieChart();
+for (CategorySummary summary : categorySummaries) {
+    pieChart.getData().add(new PieChart.Data(summary.getCategory(), summary.getTotalAmount()));
+}</code></pre>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 7 ================= -->
+<h1>7.0 Modern Java: Streams, Lambdas &amp; File I/O</h1>
+
+<h2>7.1 Functional Programming with Java 8 Streams</h2>
+<p>
+    Instead of imperative for-loops with mutable counters, <code>ReportService.java</code> utilizes declarative stream pipelines:
+</p>
+
+<pre><code class="language-java">// Package: com.smartspend.service (ReportService.java)
+
+// 1. Filtering by dynamic date range
+List&lt;Expense&gt; filteredExpenses = allExpenses.stream()
+    .filter(e -&gt; !e.getDate().isBefore(startDate) &amp;&amp; !e.getDate().isAfter(endDate))
+    .collect(Collectors.toList());
+
+// 2. Computing aggregate financial total
+double totalExpense = filteredExpenses.stream()
+    .mapToDouble(Expense::getAmount)
+    .sum();
+
+// 3. Category grouping and accumulation
+Map&lt;String, Double&gt; categoryBreakdown = filteredExpenses.stream()
+    .collect(Collectors.groupingBy(
+        Expense::getCategory,
+        Collectors.summingDouble(Expense::getAmount)
+    ));</code></pre>
+
+<h2>7.2 Disk Export via Java File I/O</h2>
+<p>
+    <code>FileExportUtil.java</code> produces RFC-4180 standard CSV files for reporting:
+</p>
+
+<pre><code class="language-java">// Package: com.smartspend.util (FileExportUtil.java)
+public static boolean exportExpensesToCSV(List&lt;Expense&gt; expenses, File targetFile) {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(targetFile))) {
+        // Write CSV Header
+        writer.write("ID,Date,Category,Amount,Description");
+        writer.newLine();
+
+        for (Expense e : expenses) {
+            String line = String.format("%d,%s,%s,%.2f,%s",
+                e.getId(),
+                e.getDate(),
+                escapeCsv(e.getCategory()),
+                e.getAmount(),
+                escapeCsv(e.getDescription())
+            );
+            writer.write(line);
+            writer.newLine();
+        }
+        return true;
+    } catch (IOException e) {
+        System.err.println("[Export] File write error: " + e.getMessage());
+        return false;
+    }
+}</code></pre>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 8 ================= -->
+<h1>8.0 Multithreading &amp; Asynchronous AI Integration</h1>
+
+<h2>8.1 The JavaFX UI Single-Thread Rule</h2>
+<p>
+    JavaFX employs a single-thread model where all scene graph modifications and user input events are handled strictly by the <strong>JavaFX Application Thread</strong>. If an HTTP request to the Google Gemini API (taking 1-3 seconds) is executed directly on this thread, the UI freezes, buttons stop reacting, and the operating system marks the application as "Not Responding".
+</p>
+
+<h2>8.2 Non-Blocking Execution with JavaFX Task &amp; <code>Platform.runLater()</code></h2>
+<p>
+    To maintain a responsive UI, SmartSpend offloads API calls to background worker threads:
+</p>
+
+<pre><code class="language-java">// Package: com.smartspend.controller (AIAssistantController.java)
+public void sendMessageToAI(String prompt) {
+    // Show user message and temporary typing indicator on UI
+    chatContainer.getChildren().add(new UserChatBubble(prompt));
+    TypingIndicator indicator = new TypingIndicator();
+    chatContainer.getChildren().add(indicator);
+
+    // Run network I/O on a background thread
+    Task&lt;String&gt; aiTask = new Task&lt;&gt;() {
+        @Override
+        protected String call() throws Exception {
+            return geminiService.generateFinancialAdvice(userId, prompt);
+        }
+    };
+
+    aiTask.setOnSucceeded(e -&gt; {
+        String response = aiTask.getValue();
+        // Safely update UI components on the JavaFX Application Thread
+        Platform.runLater(() -&gt; {
+            chatContainer.getChildren().remove(indicator);
+            chatContainer.getChildren().add(new AIChatBubble(response));
+        });
+    });
+
+    aiTask.setOnFailed(e -&gt; {
+        Platform.runLater(() -&gt; {
+            chatContainer.getChildren().remove(indicator);
+            chatContainer.getChildren().add(new AIChatBubble("AI Service temporarily offline."));
+        });
+    });
+
+    new Thread(aiTask).start();
+}</code></pre>
+
+<h2>8.3 Grounding AI Prompts in User Database Metrics</h2>
+<p>
+    Instead of generic responses, <code>GeminiService.java</code> queries real financial records from the database before dispatching the HTTP request:
+</p>
+<pre><code class="language-java">// Context injection inside GeminiService.java
+String systemContext = String.format(
+    "User Financial Context: Monthly Income: $%.2f | Monthly Expenses: $%.2f | Savings Rate: %.1f%% | " +
+    "Top Spending Category: %s | Active Overspent Budgets: %d. Provide actionable personal advice.",
+    totalIncome, totalExpenses, savingsRate, topCategory, overspentCount
+);</code></pre>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 9 ================= -->
+<h1>9.0 Step-by-Step Faculty Demonstration Guide</h1>
+<p>
+    Follow this exact chronological script during your project presentation to demonstrate all major features smoothly:
+</p>
+
+<div class="qa-box">
+    <strong class="q">Step 1: Launch &amp; Database Bootstrap</strong>
+    <p class="a">
+        Launch the project via <code>run.bat</code>. Highlight the console log showing <code>DatabaseInitializer</code> creating tables and verifying the connection. Show Sir that the application cleanly opens to the <strong>Login Screen</strong>.
+    </p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">Step 2: Authentication &amp; Session Management</strong>
+    <p class="a">
+        Log in with the seeded credentials (<code>demo / demo123</code>) or click <strong>Register</strong> to create a new user. Explain that passwords are protected via <strong>SHA-256 cryptographic hashing</strong> and current user state is managed globally through <code>SessionManager</code>.
+    </p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">Step 3: Executive Dashboard &amp; Live Visualizations</strong>
+    <p class="a">
+        Upon login, the <strong>Dashboard</strong> opens. Show Sir the KPI summary cards (Total Income, Total Expenses, Net Savings), the <strong>PieChart</strong> showing Category Breakdown, and the <strong>BarChart</strong> comparing monthly inflows and outflows.
+    </p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">Step 4: Adding an Expense &amp; Live TableView Binding</strong>
+    <p class="a">
+        Navigate to the <strong>Expenses</strong> tab. Fill in the form: select category "Food", enter amount "45.50", select today's date, and click <strong>Add Expense</strong>. Point out how the <code>TableView</code> updates instantly without requiring a page refresh.
+    </p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">Step 5: Budget Enforcement &amp; Alert Thresholds</strong>
+    <p class="a">
+        Navigate to the <strong>Budgets</strong> tab. Set a budget limit of $100 for "Food". Then return to Expenses and add another food expense of $80. Point out the real-time visual progress bar turning red and the <code>AlertHelper</code> warning popup alerting the user that their budget has been exceeded.
+    </p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">Step 6: Stream Reports &amp; CSV Disk Export</strong>
+    <p class="a">
+        Open the <strong>Reports</strong> tab. Select a custom date range and click <strong>Generate Report</strong> (mention Java 8 Streams). Click <strong>Export to CSV</strong>; a native JavaFX <code>FileChooser</code> opens. Save the file to desktop and open it to prove structured data export.
+    </p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">Step 7: AI Financial Assistant (Online &amp; Offline Modes)</strong>
+    <p class="a">
+        Open the <strong>AI Assistant</strong> tab. Ask: <em>"How can I improve my savings this month?"</em>. Point out the smooth typing animation and non-blocking background thread. Mention that even if internet is disconnected, our offline analyzer responds using local database heuristics!
+    </p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 10 ================= -->
+<h1>10.0 Top 20 Faculty Viva Questions &amp; Model Answers</h1>
+
+<div class="qa-box">
+    <strong class="q">1. Why did you use an Abstract Class for Transaction instead of an Interface?</strong>
+    <p class="a">Because <code>Expense</code> and <code>Income</code> share common fields (<code>id</code>, <code>amount</code>, <code>category</code>, <code>date</code>) and constructor logic. Interfaces before Java 8 could not hold state or fields, and even now cannot hold constructors. An abstract class is the proper object-oriented choice when sharing state and partial implementation across closely related subclasses.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">2. How does your application prevent SQL Injection?</strong>
+    <p class="a">We strictly use <code>PreparedStatement</code> with <code>?</code> placeholders for all dynamic inputs. The SQL query structure is pre-compiled by the database engine prior to binding values, ensuring any special characters are treated purely as literal strings rather than executable SQL.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">3. What is the benefit of the Singleton pattern in DatabaseConnection?</strong>
+    <p class="a">It guarantees that only a single instance of the database connection manager exists throughout the JVM lifecycle. This centralizes connection configuration, prevents port exhaustion, and coordinates our seamless fallback to the in-memory H2 database.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">4. What is the difference between Checked and Unchecked Exceptions in your project?</strong>
+    <p class="a"><code>SQLException</code> is a checked exception that requires explicit handling. We translate it into our custom <code>DatabaseException</code>, which extends <code>RuntimeException</code> (unchecked). This prevents boilerplate <code>throws</code> declarations across our service and controller layers while allowing controllers to catch it where appropriate.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">5. Why is try-with-resources better than try-catch-finally?</strong>
+    <p class="a">Try-with-resources automatically closes all declared resources implementing <code>AutoCloseable</code> in reverse order upon exiting the block, even if an exception occurs. This eliminates verbose, error-prone nested <code>finally</code> blocks where closing one resource could throw an exception and skip closing others.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">6. What happens if the local MySQL server is not installed or turned off?</strong>
+    <p class="a">Our <code>DatabaseConnection</code> class catches the connection failure, logs a notification, and automatically initializes an embedded in-memory H2 database. Tables and default records are seeded automatically, ensuring the app runs reliably during evaluation.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">7. Why is multithreading required for the Gemini AI assistant in JavaFX?</strong>
+    <p class="a">JavaFX operates on a single Application Thread. An HTTP request takes 1-3 seconds; executing it on the UI thread would block the event loop, causing the window to freeze and appear "Not Responding". Running it in a background <code>Task</code> keeps the UI smooth.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">8. What does Platform.runLater() do?</strong>
+    <p class="a">JavaFX UI elements are not thread-safe and can only be updated from the JavaFX Application Thread. <code>Platform.runLater(Runnable)</code> submits a task onto the UI thread's event queue to be executed safely when background network threads finish.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">9. How do Java 8 Streams benefit your financial report calculations?</strong>
+    <p class="a">Streams provide declarative, functional processing: <code>expenses.stream().filter(...).mapToDouble(...).sum()</code> replaces multiple temporary variables and nested <code>for</code> loops, significantly improving readability and reducing indexing bugs.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">10. How are passwords stored securely in the database?</strong>
+    <p class="a">In <code>AuthService.java</code>, passwords are hashed using SHA-256 via Java's <code>MessageDigest</code>. We combine the password with a per-user salt before hashing, ensuring that raw passwords are never stored in plaintext.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">11. What is the role of PropertyValueFactory in TableView?</strong>
+    <p class="a">It uses Java Reflection to automatically inspect the getter methods of the model class (e.g., <code>getCategory()</code> in <code>Expense</code>) and bind that value directly to the corresponding <code>TableColumn</code> cell.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">12. Why did you use Java Generics in CrudDao&lt;T&gt;?</strong>
+    <p class="a">Generics allow us to write a single, reusable interface contract for all persistence operations (<code>save</code>, <code>findById</code>, <code>delete</code>) while enforcing compile-time type safety for <code>Expense</code>, <code>Income</code>, <code>Budget</code>, and <code>User</code>.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">13. What is the difference between Method Overloading and Method Overriding in your code?</strong>
+    <p class="a">Method Overriding occurs in <code>Expense</code> and <code>Income</code> where both override <code>getTransactionType()</code> from <code>Transaction</code>. Method Overloading occurs in <code>Transaction</code> constructors having different parameter signatures.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">14. Why is java.time.LocalDate preferred over java.util.Date?</strong>
+    <p class="a"><code>java.time.LocalDate</code> is immutable and thread-safe. It separates date from time and timezone concerns and avoids the deprecated 0-indexed month bugs inherent in legacy <code>java.util.Date</code>.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">15. How does the application ground AI answers in real user financial data?</strong>
+    <p class="a">Before sending the HTTP request, <code>GeminiService</code> queries the database for monthly totals, top categories, and savings rates, injecting these real metrics into the prompt context for personalized guidance.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">16. What is the DAO (Data Access Object) design pattern?</strong>
+    <p class="a">The DAO pattern isolates business logic from the underlying persistence implementation. Services interact with <code>ExpenseDao</code> interfaces without needing to know whether records reside in MySQL, H2, or files.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">17. How does the system handle foreign keys when a user is deleted?</strong>
+    <p class="a">Our database schema specifies <code>ON DELETE CASCADE</code> for all child tables (expenses, incomes, budgets), guaranteeing that deleting a user automatically cleans up associated records without orphan rows.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">18. What is RFC-4180 compliance in your CSV exporter?</strong>
+    <p class="a">It is the formal specification for comma-separated values. If a description contains commas, quotes, or newlines, our <code>FileExportUtil</code> wraps the field in double quotes and escapes internal quotes with double-quotes.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">19. How does SessionManager maintain logged-in user state?</strong>
+    <p class="a">It is implemented as a Singleton holding a reference to the active <code>User</code> object. Any view or controller can call <code>SessionManager.getInstance().getCurrentUser()</code> to retrieve the user's ID and permissions.</p>
+</div>
+
+<div class="qa-box">
+    <strong class="q">20. What makes your project stand out compared to standard expense trackers?</strong>
+    <p class="a">SmartSpend combines pure Java 21 desktop engineering, multi-engine database persistence with automatic fallback, complete 4-pillar OOP design, multithreaded AI integration, and production-quality visual charting.</p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 11 ================= -->
+<h1>11.0 Project Setup, Compilation &amp; Execution Guide</h1>
+
+<h2>11.1 One-Click Launch via <code>run.bat</code></h2>
+<p>
+    The fastest way to run SmartSpend on Windows is using the included root batch script:
+</p>
+<pre><code class="language-bash"># Double-click run.bat in project root, or execute via terminal:
+run.bat</code></pre>
+<p>
+    The script automatically detects JDK paths, checks for Maven, resolves JavaFX modules and database JDBC drivers from the local cache, compiles all source files, and launches <code>com.smartspend.Main</code>.
+</p>
+
+<h2>11.2 Launching via Maven (JavaFX Plugin)</h2>
+<pre><code class="language-bash"># Standard Maven run target:
+mvn clean javafx:run
+
+# Building a standalone shaded executable JAR:
+mvn clean package</code></pre>
+
+<h2>11.3 Manual Compilation using <code>javac</code></h2>
+<p>
+    To compile manually using the JDK command line:
+</p>
+<pre><code class="language-bash"># Set JavaFX and Driver module paths
+set JFX_PATH="path/to/javafx-sdk-21/lib"
+set CP="target/classes;lib/mysql-connector-j-8.3.0.jar;lib/h2-2.2.224.jar"
+
+# Compile all classes with UTF-8 encoding
+javac -encoding UTF-8 --module-path %JFX_PATH% --add-modules javafx.controls -cp %CP% -d target/classes src/main/java/com/smartspend/*.java src/main/java/com/smartspend/*/*.java
+
+# Launch Application
+java --module-path %JFX_PATH% --add-modules javafx.controls -cp %CP% com.smartspend.Main</code></pre>
+
+<div class="callout callout-success" style="margin-top: 25px;">
+    <strong>Default Demo Login Credentials:</strong>
+    <br>Username: <code>demo</code>
+    <br>Password: <code>demo123</code>
+    <br><em>(Database tables and demo records are automatically provisioned on first launch)</em>
+</div>
+
+</body>
+</html>
